@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 d-flex flex-column align-items-center">
+          <h1 class="text-center">#{{ tag_name }}</h1>
+        </div>
+        <hr>
+        {% for article in tag_articles %}
+        <div class="card col-4" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{ article.title }}</h5>
+            <p class="card-text"><a href="{% url 'profile' article.user.username %}">{{ article.user.username }}</a></p>
+            <p class="card-text">{{ article.content }}</p>
+            {% for tag in article.tags.all %}
+            <a href="{% url 'articles:tag_search' tag.name %}" class="card-text d-inline">#{{ tag }} </a>
+            {% endfor %}
+            <p class="card-text">{{ article.created_at }}</p>
+            {% if user in article.like_users.all %}
+            <a href="{% url 'articles:like_root' article.id %}" style="font-size: 2em; color: red;"><i class="far fa-kiss-wink-heart"></i></a>
+            {% else %}
+            <a href="{% url 'articles:like_root' article.id %}" style="font-size: 2em; color: Dodgerblue;"><i class="far fa-kiss"></i></a>
+            {% endif %}
+            Like: {{ article.like_users.count }}
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

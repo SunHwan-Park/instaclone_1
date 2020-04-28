@@ -1,0 +1,6 @@
+{% if user in article.like_users.all %}
+<a href="{% url 'articles:like' article.id %}" style="font-size: 2em; color: red;"><i class="far fa-kiss-wink-heart"></i></a>
+{% else %}
+<a href="{% url 'articles:like' article.id %}" style="font-size: 2em; color: Dodgerblue;"><i class="far fa-kiss"></i></a>
+{% endif %}
+Like: {{ article.like_users.count }}

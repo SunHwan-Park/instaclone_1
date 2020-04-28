@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+<h1 class="text-center">Login</h1>
+<hr>
+<form action="" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button "Login" button_type="submit" button_class="btn-primary" %}
+</form>
+<hr>
+<p class="text-center">계정이 없으신가요? <a href="{% url 'accounts:signup' %}">가입하기</a></p>
+{% endblock %}
