@@ -13,9 +13,12 @@ def index(request):
     users = User.objects.all() # 전체 유저 그룹
     followings = request.user.followings.all() # 사용자가 팔로잉하고 있는 유저 그룹
     unfollowings = users.difference(followings) # 사용자가 팔로잉하고 있지 않은 유저 그룹
-    if len(unfollowings) >= 5: # 만약 그 수가 5 이상이라면 랜덤하게 5명만 뽑아 추천
+    if len(unfollowings) >= 5: # 만약 그 수가 5 이상이라면
+        # 랜덤하게 5명만 뽑아 추천.
         # queryset은 random.shufle()이 먹히지 않는다. 따라서 아래와 같이 구현해야한다.
-        unfollowings = sorted(unfollowings, key=lambda x: random.random())[:5]
+        # unfollowings = sorted(unfollowings, key=lambda x: random.random())[:5]
+        # 서로 많은 친구(내가 팔로잉하고 있는 유저)를 공유하고 있는 사람 5명 뽑아 추천
+        unfollowings = sorted(unfollowings, reverse=True, key=lambda x: x.followings.all().intersection(request.user.followings.all()).count())[:5]
 
     articles = [] # 넘겨줄 글 목록
     for following in followings: # 팔로잉 하고 있는 유저
